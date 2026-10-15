@@ -1,4 +1,4 @@
-// แสดงแทนรายการเมื่อโหลด todo ไม่สำเร็จ พร้อมปุ่ม Retry ยังไม่ถูก render นักเรียนเลือกเองว่าจะแสดงเมื่อไร
+// แสดงแทนรายการเมื่อโหลด todo ไม่สำเร็จ พร้อมปุ่ม Retry
 import { CircleAlertIcon, RefreshCwIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -11,7 +11,7 @@ import {
   EmptyTitle,
 } from '@/components/ui/empty';
 
-export default function TodoListError() {
+export default function TodoListError({ onRetry }) {
   return (
     <Empty>
       <EmptyHeader>
@@ -24,7 +24,7 @@ export default function TodoListError() {
         </EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
-        <Button variant="outline">
+        <Button variant="outline" onClick={onRetry}>
           <RefreshCwIcon data-icon="inline-start" />
           Retry
         </Button>

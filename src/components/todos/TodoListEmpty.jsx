@@ -1,5 +1,6 @@
-// แสดงแทนรายการเมื่อยังไม่มี todo เลย ยังไม่ถูก render นักเรียนเลือกเองว่าจะแสดงเมื่อไร
+// แสดงแทนรายการเมื่อยังไม่มี todo เลย
 import { ClipboardListIcon, PlusIcon } from 'lucide-react';
+import { Link } from 'react-router';
 
 import { buttonVariants } from '@/components/ui/button';
 import {
@@ -25,10 +26,10 @@ export default function TodoListEmpty() {
         </EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
-        <a href="#" className={cn(buttonVariants())}>
+        <Link to="/todos/new" className={cn(buttonVariants())}>
           <PlusIcon data-icon="inline-start" />
           New task
-        </a>
+        </Link>
       </EmptyContent>
     </Empty>
   );

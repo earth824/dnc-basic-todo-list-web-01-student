@@ -1,17 +1,12 @@
-// รายการ todo ในกรอบการ์ด ตอนนี้แสดงแถวเดียวกันซ้ำ 8 ครั้ง
+// รายการ todo ในกรอบการ์ด
 import TodoItem from '@/components/todos/TodoItem';
 
-export default function TodoList() {
+export default function TodoList({ todos, dateField }) {
   return (
     <ul className="overflow-hidden rounded-xl border bg-card">
-      <TodoItem />
-      <TodoItem />
-      <TodoItem />
-      <TodoItem />
-      <TodoItem />
-      <TodoItem />
-      <TodoItem />
-      <TodoItem />
+      {todos.map((todo) => (
+        <TodoItem key={todo.id} todo={todo} dateField={dateField} />
+      ))}
     </ul>
   );
 }

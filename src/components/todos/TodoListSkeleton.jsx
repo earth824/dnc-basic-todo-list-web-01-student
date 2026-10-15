@@ -1,4 +1,4 @@
-// รายการ todo ระหว่างรอโหลด ยังไม่ถูก render นักเรียนเลือกเองว่าจะแสดงเมื่อไร
+// รายการ todo ระหว่างรอโหลดครั้งแรก
 import TodoItemSkeleton from '@/components/todos/TodoItemSkeleton';
 
 export default function TodoListSkeleton() {

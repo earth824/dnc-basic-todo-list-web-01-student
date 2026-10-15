@@ -1,4 +1,4 @@
-// แสดงแทนรายการเมื่อค้นหรือกรองแล้วไม่เจอ todo ยังไม่ถูก render นักเรียนเลือกเองว่าจะแสดงเมื่อไร
+// แสดงแทนรายการเมื่อค้นหรือกรองแล้วไม่เจอ todo
 import { SearchXIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -11,7 +11,7 @@ import {
   EmptyTitle,
 } from '@/components/ui/empty';
 
-export default function TodoListNoResults() {
+export default function TodoListNoResults({ onClearFilters }) {
   return (
     <Empty>
       <EmptyHeader>
@@ -22,7 +22,9 @@ export default function TodoListNoResults() {
         <EmptyDescription>Try a different search or status.</EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
-        <Button variant="outline">Clear filters</Button>
+        <Button variant="outline" onClick={onClearFilters}>
+          Clear filters
+        </Button>
       </EmptyContent>
     </Empty>
   );

@@ -1,5 +1,6 @@
 // header ของหน้ารายการ todo: โลโก้, ช่องค้นหา, ปุ่ม New task และปุ่มสลับธีม
 import { PlusIcon } from 'lucide-react';
+import { Link } from 'react-router';
 
 import AppLogo from '@/components/layout/AppLogo';
 import ThemeToggle from '@/components/layout/ThemeToggle';
@@ -13,10 +14,10 @@ export default function AppHeader() {
       <AppLogo />
       <TodoSearch />
       <div className="ml-auto flex items-center gap-2">
-        <a href="#" className={cn(buttonVariants())}>
+        <Link to="/todos/new" className={cn(buttonVariants())}>
           <PlusIcon data-icon="inline-start" />
           New task
-        </a>
+        </Link>
         <ThemeToggle />
       </div>
     </header>
