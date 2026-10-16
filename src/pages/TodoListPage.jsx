@@ -1,10 +1,27 @@
 // หน้ารายการ todo (/todos): header, sidebar กรองสถานะ และรายการ todo
+import { apiClient } from '@/api/client';
 import AppHeader from '@/components/layout/AppHeader';
 import SortMenu from '@/components/todos/SortMenu';
 import StatusFilter from '@/components/todos/StatusFilter';
 import TodoList from '@/components/todos/TodoList';
+import TodoListSkeleton from '@/components/todos/TodoListSkeleton';
+import { useQuery } from '@tanstack/react-query';
+
+// { todos: realdata }
 
 export default function TodoListPage() {
+  const { data: todos, isPending } = useQuery({
+    queryKey: ['todos'],
+    queryFn: async () => {
+      const res = await apiClient.get('/todos');
+      return res.data;
+    },
+  });
+
+  if (isPending) {
+    return <TodoListSkeleton />;
+  }
+
   return (
     <div className="flex min-h-svh flex-col">
       <AppHeader />
@@ -17,12 +34,12 @@ export default function TodoListPage() {
             <h1 className="text-xl font-semibold">
               All tasks
               <span className="ml-2 text-sm font-normal text-muted-foreground">
-                8
+                {todos.length}
               </span>
             </h1>
             <SortMenu />
           </div>
-          <TodoList />
+          <TodoList todos={todos} />
         </main>
       </div>
     </div>

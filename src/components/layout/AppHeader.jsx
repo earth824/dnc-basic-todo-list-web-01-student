@@ -6,6 +6,7 @@ import ThemeToggle from '@/components/layout/ThemeToggle';
 import TodoSearch from '@/components/todos/TodoSearch';
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { Link } from 'react-router';
 
 export default function AppHeader() {
   return (
@@ -13,10 +14,10 @@ export default function AppHeader() {
       <AppLogo />
       <TodoSearch />
       <div className="ml-auto flex items-center gap-2">
-        <a href="#" className={cn(buttonVariants())}>
+        <Link to="/todo/new" className={cn(buttonVariants())}>
           <PlusIcon data-icon="inline-start" />
           New task
-        </a>
+        </Link>
         <ThemeToggle />
       </div>
     </header>

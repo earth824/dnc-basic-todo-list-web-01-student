@@ -10,7 +10,7 @@ export default function StatusSelect() {
         variant="segmented"
         spacing={1.5}
         aria-labelledby="status-select-label"
-        defaultValue={['pending']}
+        defaultValue={['completed']}
         className="w-full"
       >
         <ToggleGroupItem value="pending" className="flex-1">

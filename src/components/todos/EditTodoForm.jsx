@@ -9,11 +9,34 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from '@/components/ui/field';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller, useForm } from 'react-hook-form';
+import z from 'zod';
 
-export default function EditTodoForm() {
+const updateTodoSchema = z.object({
+  title: z.string().trim().min(1),
+  completed: z.enum(['completed', 'pending']),
+});
+
+export default function EditTodoForm({ todo }) {
+  const form = useForm({
+    resolver: zodResolver(updateTodoSchema),
+    defaultValues: {
+      title: todo.title,
+      completed: todo.completed ? 'completed' : 'pending',
+    },
+  });
+
+  const onSubmit = (data) => {};
+
   return (
     <Card className="mx-auto w-full max-w-120">
       <CardHeader>
@@ -23,13 +46,31 @@ export default function EditTodoForm() {
         <CardDescription>Created Oct 10 · Updated 2h ago</CardDescription>
       </CardHeader>
       <CardContent>
-        <form id="edit-todo-form">
+        <form id="edit-todo-form" onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup className="gap-4.5">
-            <Field className="gap-2">
-              <FieldLabel htmlFor="edit-todo-title">Title</FieldLabel>
-              <Input id="edit-todo-title" defaultValue="Draft project brief" />
-            </Field>
-            <StatusSelect />
+            <Controller
+              control={form.control}
+              name="title"
+              render={({ field, fieldState }) => (
+                <Field className="gap-2" data-invalid={fieldState.invalid}>
+                  <FieldLabel htmlFor="edit-todo-title">Title</FieldLabel>
+                  <Input
+                    id="edit-todo-title"
+                    defaultValue={todo.title}
+                    {...field}
+                    aria-invalid={fieldState.invalid}
+                  />
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+            <Controller
+              control={form.control}
+              name="completed"
+              render={() => <StatusSelect />}
+            />
           </FieldGroup>
         </form>
       </CardContent>

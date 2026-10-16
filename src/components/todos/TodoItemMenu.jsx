@@ -14,8 +14,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Link } from 'react-router';
 
-export default function TodoItemMenu() {
+export default function TodoItemMenu({ todo }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -25,7 +26,7 @@ export default function TodoItemMenu() {
         <MoreHorizontalIcon />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-45">
-        <DropdownMenuItem>
+        <DropdownMenuItem render={<Link to={`/todo/${todo.id}`} />}>
           <PencilIcon />
           Edit
         </DropdownMenuItem>
