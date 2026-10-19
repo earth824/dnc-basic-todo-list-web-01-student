@@ -3,8 +3,7 @@ import { Link, useSearchParams } from 'react-router';
 
 import AppHeader from '@/components/AppHeader';
 import TodoItem from '@/components/TodoItem';
-import { useQuery } from '@tanstack/react-query';
-import { apiClient } from '@/api/client';
+import { useTodos } from '@/hooks/use-todo';
 
 const mapCompletedByStatus = {
   all: undefined,
@@ -28,18 +27,7 @@ export default function TodoListPage() {
     data: todos,
     isPending,
     isError,
-  } = useQuery({
-    queryKey: ['todos', { status }], // { key: value } ==> { ["todos"]: data return from queryFn}
-    queryFn: async () => {
-      const res = await apiClient.get('/todos', {
-        params: { completed: mapCompletedByStatus[status] },
-      });
-      return res.data;
-    },
-    // staleTime: 60000,
-    // gcTime: 15000,
-    retry: 0,
-  });
+  } = useTodos({ completed: mapCompletedByStatus[status] });
 
   // console.log(todos, isPending);
 

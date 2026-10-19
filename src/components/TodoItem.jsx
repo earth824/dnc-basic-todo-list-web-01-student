@@ -1,33 +1,22 @@
 // หนึ่งแถวในรายการ: checkbox สลับสถานะ, ชื่อ task ที่กดแล้วไปหน้าแก้ไข และปุ่มลบ
-import { apiClient } from '@/api/client';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useDeleteTodo, useUpdateTodo } from '@/hooks/use-todo-mutations';
 import { Link } from 'react-router';
 
 export default function TodoItem({ todo }) {
-  const queryClient = useQueryClient();
-
-  const deleteMutation = useMutation({
-    mutationFn: async () => {
-      await apiClient.delete(`/todos/${todo.id}`);
-    }, // this function will call: deleteMutation.mutate()
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['todos'] }),
-  });
-
-  const updateMutation = useMutation({
-    mutationFn: async () => {
-      await apiClient.patch(`/todos/${todo.id}`, {
-        completed: !todo.completed,
-      });
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['todos'] }),
-  });
+  const deleteMutation = useDeleteTodo();
+  const updateMutation = useUpdateTodo();
 
   return (
     <li className="flex items-center gap-3 py-2">
       <input
         type="checkbox"
         checked={todo.completed}
-        onChange={() => updateMutation.mutate()}
+        onChange={() =>
+          updateMutation.mutate({
+            id: todo.id,
+            input: { completed: !todo.completed },
+          })
+        }
       />
       <Link to={`/todos/${todo.id}`} className="flex-1">
         {todo.title}
@@ -36,7 +25,7 @@ export default function TodoItem({ todo }) {
         type="button"
         className="text-red-600 disabled:opacity-50"
         onClick={() => {
-          deleteMutation.mutate();
+          deleteMutation.mutate(todo.id);
         }}
       >
         Delete

@@ -2,9 +2,8 @@
 import { Link, useParams } from 'react-router';
 
 import AppHeader from '@/components/AppHeader';
-import { useQuery } from '@tanstack/react-query';
-import { apiClient } from '@/api/client';
 import EditTodoForm from '@/components/EditTodoForm';
+import { useTodo } from '@/hooks/use-todo';
 
 export default function EditTodoPage() {
   const { id } = useParams(); // /todos/14  { id: '14' }
@@ -15,14 +14,7 @@ export default function EditTodoPage() {
     isFetching,
     isError,
     data: todo, // { id, title, completed, createdAt, updatedAt }
-  } = useQuery({
-    queryKey: ['todos', id], // ["todos", "14"]
-    queryFn: async () => {
-      const res = await apiClient.get(`/todos/${id}`);
-      return res.data; // success: res.data
-    },
-    // staleTime: 30000,
-  });
+  } = useTodo(id);
 
   // status: success, error
   // console.log(isPending, isFetching);

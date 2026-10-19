@@ -1,12 +1,10 @@
 // หน้าสร้าง task: ฟอร์มที่มีช่อง Title
 import { Link, useNavigate } from 'react-router';
-
 import AppHeader from '@/components/AppHeader';
 import z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { apiClient } from '@/api/client';
+import { useCreateTodo } from '@/hooks/use-todo-mutations';
 
 const createTodoSchema = z.object({
   title: z.string().trim().min(1, 'Title is required'),
@@ -21,13 +19,10 @@ export default function NewTodoPage() {
     resolver: zodResolver(createTodoSchema),
   });
 
-  const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const createMutation = useMutation({
-    mutationFn: (input) => apiClient.post('/todos', input),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['todos'] });
+  const createMutation = useCreateTodo({
+    onSuccess: () => {
       navigate('/todos');
     },
   });
